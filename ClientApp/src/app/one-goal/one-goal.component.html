@@ -1,0 +1,17 @@
+<mat-dialog-content>
+  <div class="card">
+    <img [src]="goal.imgUrl" class="card-img-top" alt="Not Found" />
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <h3 >{{ goal.title }}</h3>
+        <h3>{{ goal.localization }}</h3>
+      </div>
+      <p class="card-text pt-4">{{ goal.description }}</p>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="d-flex justify-content-around pt-3">
+  <button matDialogClose="Ok" mat-raised-button>Close</button>
+  <button matDialogClose="Edit" mat-raised-button>Edit</button>
+  <button matDialogClose="Delete" mat-raised-button>Delete</button>
+</div>

@@ -1,0 +1,25 @@
+blockquote{
+  margin: 50px 0 100px 0;
+}
+
+blockquote p{
+  font-size: x-large;
+  color: teal;
+}
+
+blockquote footer{
+  font-size: large;
+}
+
+textarea{
+  height: 140px;
+}
+
+.border-teal{
+  border: 1px solid teal;
+}
+
+.border-teal:hover{
+  border: 1px solid teal;
+  box-shadow: 0 0 0 0.1rem lightseagreen;
+}

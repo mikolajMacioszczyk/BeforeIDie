@@ -1,0 +1,14 @@
+<ul>
+  <li *ngFor="let goal of goals">
+    <div class="card" (click)="openDialog(goal.id)">
+      <img [src]="goal.imgUrl" class="card-img-top" alt="Not Found" />
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h3>{{ goal.title }}</h3>
+          <h3>{{ goal.localization }}</h3>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>
+

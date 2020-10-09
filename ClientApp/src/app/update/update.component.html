@@ -1,0 +1,73 @@
+<blockquote class="text-right">
+  <p class="mb-0">Uważaj z wyborem marzeń. Marzenia się czasem spełniają.</p>
+  <footer class="blockquote-footer">Stanisław Jerzy Lec</footer>
+</blockquote>
+<div></div>
+
+<div class="row">
+  <div class="col-6">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <label for="title">Tutuł</label>
+      <input
+        id="title"
+        formControlName="title"
+        [(ngModel)]="goal.title"
+        type="text"
+        class="form-control border-teal"/>
+      <div class="text-danger" *ngIf="title.invalid && title.touched">
+        Ładny tytuł zachęci do podróży!
+      </div>
+
+      <label for="localization">Lokalizacja</label>
+      <input
+        id="localization"
+        formControlName="localization"
+        [(ngModel)]="goal.localization"
+        type="text"
+        class="form-control border-teal"/>
+      <div class="text-danger" *ngIf="localization.invalid && localization.touched">
+        Lokazlizacja się przyda, nie będziesz siedział cały czas w domu!
+      </div>
+
+      <label for="imageUrl">Url Zdjęcia</label>
+      <input
+        id="imageUrl"
+        formControlName="imageUrl"
+        [(ngModel)]="goal.imgUrl"
+        type="text"
+        class="form-control border-teal"/>
+      <div class="text-danger" *ngIf="imageUrl.invalid && imageUrl.touched">
+        Wklej zdjęcie, też chce się nacieszyć tym widokiem!
+      </div>
+
+      <div class="form-group">
+        <label for="description">Opis</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          [(ngModel)]="goal.description"
+          type="text"
+          class="form-control border-teal"></textarea>
+        <div class="text-danger" *ngIf="description.invalid && description.touched">
+          No napisz no
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-success" type="submit" [disabled]="form.invalid">Zapisz</button>
+        <button class="btn btn-secondary" type="button" (click)="discard()" >Wycofaj</button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="title.valid" class="col-6">
+    <div class="card">
+      <img *ngIf="imageUrl.valid" [src]="goal.imgUrl" class="card-img-top" alt="Not Found" />
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h5>{{ goal.title }}</h5>
+          <h5>{{ goal.localization }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
