@@ -23,6 +23,5 @@ namespace BeforeIDie.Db
         }
 
         public DbSet<Goal> GoalItems { get; set; }
-        public DbSet<RealizedGoal> RealizedGoalsItems { get; set; }
     }
 }

@@ -4,6 +4,10 @@ export interface IGoal{
   description: string,
   localization: string,
   imgUrl: string
+  status: string;
+  dateOfRealization: Date;
+  rating: number;
+  feelings: string;
 }
 
 export class Goal implements IGoal{
@@ -12,4 +16,8 @@ export class Goal implements IGoal{
   imgUrl: string;
   localization: string;
   title: string;
+  status: string;
+  dateOfRealization: Date;
+  rating: number;
+  feelings: string;
 }

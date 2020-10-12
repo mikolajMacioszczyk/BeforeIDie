@@ -3,64 +3,56 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BeforeIDie.Db.Repository;
 using BeforeIDie.Models;
-using BeforeIDie.ViewModels;
 using BeforeIDie.ViewModels.Goal.Planned;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeforeIDie.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class GoalsController : Controller
+    [Route("api/planned")]
+    public class GoalsPlannedController : Controller
     {
-        private readonly IGoalRepository _repository;
+        private readonly GoalPlannedRepository _repository;
         private readonly IMapper _mapper;
-        
-        public GoalsController(IGoalRepository repository, IMapper mapper)
+
+        public GoalsPlannedController(GoalPlannedRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
-        
-        [HttpGet]
-        [Route("")]
-        public async Task<ActionResult<IEnumerable<GoalReadViewModel>>> GetAll()
-        {
-            return Ok(_mapper.Map<IEnumerable<GoalReadViewModel>>(await _repository.GetAllAsync()));
-        }
-        
-        [HttpGet]
-        [Route("planned")]
-        public async Task<ActionResult<IEnumerable<GoalReadViewModel>>> GetPlanned()
-        {
-            return Ok(_mapper.Map<IEnumerable<GoalReadViewModel>>(await _repository.GetAllAsync()));
-        }
 
         [HttpGet]
+        [Route("")]
+        public async Task<ActionResult<IEnumerable<GoalPlannedReadViewModel>>> GetAll()
+        {
+            return Ok(_mapper.Map<IEnumerable<GoalPlannedReadViewModel>>(await _repository.GetAllAsync()));
+        }
+        
+        [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<GoalReadViewModel>> GetById([FromRoute] int id)
+        public async Task<ActionResult<GoalPlannedReadViewModel>> GetById([FromRoute] int id)
         {
             var goal = await _repository.GetByIdAsync(id);
             if (goal != null)
             {
-                return Ok(_mapper.Map<GoalReadViewModel>(goal));
+                return Ok(_mapper.Map<GoalPlannedReadViewModel>(goal));
             }
             return NotFound();
         }
-
+        
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult<GoalReadViewModel>> Create([FromBody] GoalCreateViewModel created)
+        public async Task<ActionResult<GoalPlannedReadViewModel>> Create([FromBody] GoalCreateViewModel created)
         {
             var model = _mapper.Map<Goal>(created);
             if (await _repository.CreateAsync(model))
             {
                 await _repository.SaveChangesAsync();
-                return Ok(_mapper.Map<GoalReadViewModel>(model));
+                return Ok(_mapper.Map<GoalPlannedReadViewModel>(model));
             }
             return BadRequest();
         }
-
+        
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult> Delete([FromRoute] int id)
@@ -72,20 +64,33 @@ namespace BeforeIDie.Controllers
             }
             return NotFound();
         }
-
+        
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult<GoalReadViewModel>> Update([FromRoute] int id,
-            [FromBody] GoalUpdateViewModel updated)
+        public async Task<ActionResult<GoalPlannedReadViewModel>> UpdatePlanned([FromRoute] int id,
+            [FromBody] GoalPlannedUpdateViewModel updated)
         {
             var model = _mapper.Map<Goal>(updated);
             if (await _repository.UpdateAsync(id, model))
             {
                 await _repository.SaveChangesAsync();
-                return _mapper.Map<GoalReadViewModel>(model);
+                return _mapper.Map<GoalPlannedReadViewModel>(model);
             }
             return NotFound();
         }
         
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<IActionResult> ChangeStatus([FromRoute] int id,
+            [FromBody] Status status)
+        {
+            if (await _repository.ChangeStatusAsync(id, status))
+            {
+                await _repository.SaveChangesAsync();
+                return Ok();
+            }
+
+            return NotFound();
+        }
     }
 }

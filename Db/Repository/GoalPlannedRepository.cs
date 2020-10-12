@@ -6,38 +6,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BeforeIDie.Db.Repository
 {
-    public class GoalRepository : IGoalRepository
+    public class GoalPlannedRepository : IGoalRepository
     {
         private readonly Context _db;
     
-        public GoalRepository(Context db)
+        public GoalPlannedRepository(Context db)
         {
             _db = db;
         }
     
         public async Task<IEnumerable<Goal>> GetAllAsync()
         {
-            return await _db.GoalItems.ToListAsync();
-        }
-
-        public async Task<IEnumerable<Goal>> GetPlannedAsync()
-        {
             return await _db.GoalItems.Where(g => g.Status == Status.Planned).ToListAsync();
-        }
-
-        public async Task<IEnumerable<Goal>> GetRealizedAsync()
-        {
-            return await _db.GoalItems.Where(g => g.Status == Status.Realized).ToListAsync();
         }
 
         public async Task<Goal> GetByIdAsync(int id)
         {
             return await _db.GoalItems.FirstOrDefaultAsync(g => g.Id == id);
-        }
-
-        public async Task<Goal> GetRealizedByIdAsync(int id)
-        {
-            return await _db.GoalItems.FirstOrDefaultAsync(g => g.Id == id && g.Status == Status.Realized);
         }
 
         public async Task<bool> CreateAsync(Goal created)
@@ -49,26 +34,25 @@ namespace BeforeIDie.Db.Repository
         public async Task<bool> UpdateAsync(int id, Goal updated)
         {
             var fromDb = await _db.GoalItems.FirstOrDefaultAsync(g => g.Id == id);
-            if (fromDb == null)
-            {
-                return false;
-            }
+            if (fromDb == null) { return false; }
+
             Update(fromDb, updated);
             return true;
         }
 
-        public async Task<bool> UpdateRealizedAsync(int id, Goal updated)
+        public async Task<bool> ChangeStatusAsync(int id, Status status)
         {
-            throw new System.NotImplementedException();
+            var fromDb = await GetByIdAsync(id);
+            if (fromDb == null) { return false; }
+
+            fromDb.Status = status;
+            return true;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
             var fromDb = await _db.GoalItems.FirstOrDefaultAsync(g => g.Id == id);
-            if (fromDb == null)
-            {
-                return false;
-            }
+            if (fromDb == null) { return false; }
 
             _db.GoalItems.Remove(fromDb);
             return true;

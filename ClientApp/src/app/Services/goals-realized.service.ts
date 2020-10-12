@@ -1,20 +1,20 @@
 import {Inject, Injectable} from '@angular/core';
-import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {IGoal} from "./Models/IGoal";
+import {Observable} from "rxjs";
+import {IGoal} from "../Models/IGoal";
 
 @Injectable({
   providedIn: 'root'
 })
-export class GoalsService {
+export class GoalsRealizedService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 
   public getAll(): Observable<any>{
-    return this.http.get<IGoal[]>(this.baseUrl+"api/goals");
+    return this.http.get<IGoal[]>(this.baseUrl+"api/goals/realized");
   }
 
   public getById(id: number): Observable<any>{
-    return this.http.get<IGoal>(this.baseUrl + "api/goals/" + id);
+    return this.http.get<IGoal>(this.baseUrl + "api/goals/realized/" + id);
   }
 
   public create(item: IGoal): Observable<any>{
@@ -26,6 +26,6 @@ export class GoalsService {
   }
 
   public update(id: number, item: IGoal): Observable<any>{
-    return this.http.put<IGoal>(this.baseUrl + "api/goals/" + id, item);
+    return this.http.put<IGoal>(this.baseUrl + "api/goals/realized/" + id, item);
   }
 }
