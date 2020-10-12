@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Goal, IGoal} from "../Models/IGoal";
-import {GoalsService} from "../goals.service";
+import {GoalsPlannedService} from "../Services/goals.service";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
@@ -15,7 +15,7 @@ export class CreateComponent implements OnInit, OnDestroy {
   goal = new Goal();
   subscription: Subscription;
 
-  constructor(private service: GoalsService, private router: Router) { }
+  constructor(private service: GoalsPlannedService, private router: Router) { }
 
   ngOnInit() {
     this.form = new FormGroup({

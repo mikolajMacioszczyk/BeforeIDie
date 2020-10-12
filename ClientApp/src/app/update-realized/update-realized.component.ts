@@ -1,25 +1,32 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {GoalsRealizedService} from "../Services/goals-realized.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Goal, IGoal} from "../Models/IGoal";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {GoalsPlannedService} from "../Services/goals.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-update',
-  templateUrl: './update.component.html',
-  styleUrls: ['./update.component.css']
+  selector: 'app-update-realized',
+  templateUrl: './update-realized.component.html',
+  styleUrls: ['./update-realized.component.css']
 })
-export class UpdateComponent implements OnInit, OnDestroy {
+export class UpdateRealizedComponent implements OnInit, OnDestroy {
   goal: IGoal = new Goal();
   subscription = new Subscription();
   form: FormGroup;
+  fullStar: number[];
+  emptyStar: number[];
+  maxRating = 6;
 
-  constructor(private service: GoalsPlannedService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private service: GoalsRealizedService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.loadGoal();
     this.createForm();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private loadGoal(): void {
@@ -27,6 +34,7 @@ export class UpdateComponent implements OnInit, OnDestroy {
     this.subscription.add(this.service.getById(id).subscribe(res =>
       {
         this.goal = res;
+        this.arrangeArrays();
       }, error => this.router.navigate(['notFound'])
     ))
   }
@@ -37,6 +45,9 @@ export class UpdateComponent implements OnInit, OnDestroy {
       localization: new FormControl('', [Validators.required, Validators.maxLength(100)]),
       imageUrl: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
+      rating: new FormControl('', [Validators.required, Validators.min(1), Validators.max(6)]),
+      feelings: new FormControl('', [Validators.required, Validators.maxLength(300)]),
+      dateOfRealization: new FormControl('', Validators.required)
     })
   }
 
@@ -56,6 +67,18 @@ export class UpdateComponent implements OnInit, OnDestroy {
     return this.form.get('description');
   }
 
+  get rating(){
+    return this.form.get('rating');
+  }
+
+  get feelings(){
+    return this.form.get('feelings');
+  }
+
+  get dateOfRealization(){
+    return this.form.get('dateOfRealization');
+  }
+
   onSubmit() {
     this.subscription.add(this.service.update(this.goal.id, this.goal).subscribe(
       res => this.backHome(),
@@ -63,15 +86,16 @@ export class UpdateComponent implements OnInit, OnDestroy {
     ));
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  private backHome(): void{
+    this.router.navigate(['/realized']);
   }
 
   discard() {
-    this.backHome()
+    this.backHome();
   }
 
-  private backHome(): void{
-    this.router.navigate(['/planned']);
+  arrangeArrays() {
+    this.fullStar = new Array(Math.min(this.goal.rating, this.maxRating));
+    this.emptyStar = new Array(this.maxRating - this.goal.rating);
   }
 }

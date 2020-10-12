@@ -1,29 +1,29 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {GoalsService} from "../goals.service";
+import {GoalsRealizedService} from "../Services/goals-realized.service";
 import {IGoal} from "../Models/IGoal";
-import {MatDialog} from "@angular/material/dialog";
-import {OneGoalComponent} from "../one-goal/one-goal.component";
-import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {OneGoalComponent} from "../one-goal/one-goal.component";
+import {MatDialog} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-goals',
-  templateUrl: './goals.component.html',
-  styleUrls: ['./goals.component.css']
+  selector: 'app-goals-realized',
+  templateUrl: './goals-realized.component.html',
+  styleUrls: ['./goals-realized.component.css']
 })
-export class GoalsComponent implements OnInit, OnDestroy {
+export class GoalsRealizedComponent implements OnInit, OnDestroy {
   goals: IGoal[];
   subscription = new Subscription();
 
-  constructor(private service: GoalsService, public dialog: MatDialog, private router: Router) { }
+  constructor(private service: GoalsRealizedService, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
     this.subscription.add(this.service.getAll().subscribe(res => {
-        this.goals = res;
-    }, error => console.log(error) ));
+      this.goals = res;
+    }));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
@@ -47,7 +47,7 @@ export class GoalsComponent implements OnInit, OnDestroy {
     this.goals.splice(idx, 1);
     this.service.delete(id).subscribe(res => {},
       error => {
-      this.goals.splice(idx, 0, item);
+        this.goals.splice(idx, 0, item);
       });
   }
 }

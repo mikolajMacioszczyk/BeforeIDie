@@ -10,22 +10,18 @@ export class GoalsRealizedService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
 
   public getAll(): Observable<any>{
-    return this.http.get<IGoal[]>(this.baseUrl+"api/goals/realized");
+    return this.http.get<IGoal[]>(this.baseUrl+"api/realized");
   }
 
   public getById(id: number): Observable<any>{
-    return this.http.get<IGoal>(this.baseUrl + "api/goals/realized/" + id);
-  }
-
-  public create(item: IGoal): Observable<any>{
-    return this.http.post<IGoal>(this.baseUrl+"api/goals", item);
+    return this.http.get<IGoal>(this.baseUrl + "api/realized/" + id);
   }
 
   public delete(id: number): Observable<any>{
-    return this.http.delete(this.baseUrl + "api/goals/" + id);
+    return this.http.delete(this.baseUrl + "api/realized/" + id);
   }
 
   public update(id: number, item: IGoal): Observable<any>{
-    return this.http.put<IGoal>(this.baseUrl + "api/goals/realized/" + id, item);
+    return this.http.put<IGoal>(this.baseUrl + "api/realized/" + id, item);
   }
 }

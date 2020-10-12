@@ -9,9 +9,16 @@ import {IGoal} from "../Models/IGoal";
 })
 export class OneGoalComponent implements OnInit {
   goal: IGoal;
+  fullStars: number[];
+  emptyStars: number[];
+  private maxRating = 6;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.goal = data.source;
+    if (this.goal.rating){
+      this.fullStars = Array(this.goal.rating);
+      this.emptyStars = Array(this.maxRating - this.goal.rating);
+    }
   }
 
   ngOnInit() {

@@ -1,0 +1,12 @@
+blockquote{
+  margin: 50px 0 100px 0;
+}
+
+blockquote p{
+  font-size: x-large;
+  color: teal;
+}
+
+blockquote footer{
+  font-size: large;
+}

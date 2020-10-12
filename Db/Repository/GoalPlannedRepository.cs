@@ -22,7 +22,7 @@ namespace BeforeIDie.Db.Repository
 
         public async Task<Goal> GetByIdAsync(int id)
         {
-            return await _db.GoalItems.FirstOrDefaultAsync(g => g.Id == id);
+            return await _db.GoalItems.Where(g => g.Status == Status.Planned).FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public async Task<bool> CreateAsync(Goal created)
@@ -33,7 +33,7 @@ namespace BeforeIDie.Db.Repository
 
         public async Task<bool> UpdateAsync(int id, Goal updated)
         {
-            var fromDb = await _db.GoalItems.FirstOrDefaultAsync(g => g.Id == id);
+            var fromDb = await _db.GoalItems.Where(g => g.Status == Status.Planned).FirstOrDefaultAsync(g => g.Id == id);
             if (fromDb == null) { return false; }
 
             Update(fromDb, updated);
@@ -51,7 +51,7 @@ namespace BeforeIDie.Db.Repository
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var fromDb = await _db.GoalItems.FirstOrDefaultAsync(g => g.Id == id);
+            var fromDb = await _db.GoalItems.Where(g => g.Status == Status.Planned).FirstOrDefaultAsync(g => g.Id == id);
             if (fromDb == null) { return false; }
 
             _db.GoalItems.Remove(fromDb);

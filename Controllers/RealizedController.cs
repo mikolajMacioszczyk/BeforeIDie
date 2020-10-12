@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace BeforeIDie.Controllers
 {
     [ApiController]
-    [Route("api/realized")]
-    public class GoalsRealizedController : Controller
+    [Route("api/[controller]")]
+    public class RealizedController : Controller
     {
         private readonly GoalRealizedRepository _repository;
         private readonly IMapper _mapper;
 
-        public GoalsRealizedController(GoalRealizedRepository repository, IMapper mapper)
+        public RealizedController(GoalRealizedRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

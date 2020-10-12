@@ -1,0 +1,25 @@
+.card{
+  margin: 70px 0;
+}
+
+.card-img-top{
+  cursor: pointer;
+}
+
+li{
+  list-style: none;
+}
+
+.teal-background{
+  background-color: teal;
+}
+
+button {
+  outline: none;
+  width: 45px;
+  height: 45px;
+}
+
+mat-icon{
+  font-size: x-large;
+}

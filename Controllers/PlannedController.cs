@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace BeforeIDie.Controllers
 {
     [ApiController]
-    [Route("api/planned")]
-    public class GoalsPlannedController : Controller
+    [Route("api/[controller]")]
+    public class PlannedController : Controller
     {
         private readonly GoalPlannedRepository _repository;
         private readonly IMapper _mapper;
 
-        public GoalsPlannedController(GoalPlannedRepository repository, IMapper mapper)
+        public PlannedController(GoalPlannedRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

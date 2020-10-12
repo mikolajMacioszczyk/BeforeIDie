@@ -1,0 +1,35 @@
+<app-dream-blackquote
+  text="Wszyscy musimy mieć jakieś marzenia. I nadzieję, że możemy osiągnąć coś więcej, niż mamy."
+  author="Cecelia Ahern"
+></app-dream-blackquote>
+
+<ul>
+  <li *ngFor="let goal of goals">
+    <div class="card">
+      <div class="d-flex justify-content-between">
+        <button mat-fab class="teal-background" (click)="updateStatus(goal.id)">
+          <mat-icon>emoji_events</mat-icon>
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu" >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+      <mat-menu #menu>
+        <div class="">
+          <button (click)="edit(goal.id)"><mat-icon>construction</mat-icon></button>
+        </div>
+        <div>
+          <button (click)="deleteById(goal.id)"><mat-icon>close</mat-icon></button>
+        </div>
+      </mat-menu>
+      <img [src]="goal.imgUrl" class="card-img-top" alt="Not Found" (click)="openDialog(goal.id)" />
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h3>{{ goal.title }}</h3>
+          <h3>{{ goal.localization }}</h3>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>
